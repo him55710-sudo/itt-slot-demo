@@ -77,7 +77,7 @@ footer{padding:10px 20px 30px;font-size:12px;color:#555}
 <div id="many" class="small"></div>
 </section>
 </main>
-<footer>ITT-Slot 데모 v1.0 (2026-09-25) · 작성: 임현수(개인 응모) · 합성 데이터 전용, 개인정보·실운영 데이터 없음 · 외부 라이브러리·외부 통신 없음(단일 HTML).</footer>
+<footer>ITT-Slot 데모 v1.0 (2026-09-25) · 개인 응모작 · 합성 데이터 전용, 개인정보·실운영 데이터 없음 · 외부 라이브러리·외부 통신 없음(단일 HTML).</footer>
 <script>
 "use strict";
 const T=['T-B','T-C','T-D','T-E'],TC={'T-B':'#e67e22','T-C':'#8e44ad','T-D':'#16a085','T-E':'#2c3e50'};
@@ -146,7 +146,7 @@ function renderViol(){let h='';for(const [k,n] of [['rec','추천안'],['base','
 function renderShuffle(){const b=simulate(S.plans.base),r=simulate(S.plans.rec);S.last={b,r};const nz=+document.getElementById('noise').value;card('scards',[['기준안 재조작',b+'회'],['추천안 재조작',r+'회'],['감소율(이번 시드)',(b?((1-r/b)*100).toFixed(1):0)+'%','ok'],['추가 예측 오차',nz?'±'+nz+'h':'없음'],['컨테이너 수',S.boxes.length]]);drawBars([['기준안',b,'#95a5a6'],['추천안',r,'#1f4e79']],'이번 시드 재조작 횟수 (합성 데이터 시뮬레이션)')}
 function drawBars(items,title){const c=document.getElementById('cv2'),g=c.getContext('2d');g.clearRect(0,0,c.width,c.height);const mx=Math.max(...items.map(i=>i[1]),1);g.font='13px sans-serif';g.fillStyle='#333';g.fillText(title,20,22);items.forEach((it,i)=>{const w=(c.width-200)*it[1]/mx;g.fillStyle=it[2];g.fillRect(110,50+i*90,w,50);g.fillStyle='#333';g.fillText(it[0],20,80+i*90);g.fillText(String(typeof it[1]==='number'&&!Number.isInteger(it[1])?it[1].toFixed(1):it[1]),120+w,80+i*90)})}
 function runMany(){const keep=S;const n=keep.boxes.length;let sb=0,sr=0,res=[];for(let s=1;s<=30;s++){const st=build(s*101,n,null);const b=simulate(st.plans.base),r=simulate(st.plans.rec);sb+=b;sr+=r;res.push(b?(1-r/b)*100:0)}res.sort((a,b)=>a-b);S=keep;predictAll();drawBars([['기준안(평균)',sb/30,'#95a5a6'],['추천안(평균)',sr/30,'#1f4e79']],'시드 30개 평균 재조작 횟수 (합성 데이터 시뮬레이션)');const nz=+document.getElementById('noise').value;document.getElementById('many').innerHTML=`[추가 예측 오차 ${nz?'±'+nz+'h':'없음'}] 30회 평균 감소율 <b>${((1-sr/sb)*100).toFixed(1)}%</b> (최소 ${res[0].toFixed(1)}% · 중앙 ${res[15].toFixed(1)}% · 최대 ${res[29].toFixed(1)}%). 합성 데이터의 반출 규칙을 모델이 거의 그대로 배울 수 있으므로 실제보다 유리하게 나올 수 있습니다. 실제 효과는 수요기업 비식별 로그로 오프라인 재현해야 확인됩니다.`}
-regen();show('s1');
+regen();(function(){const h=location.hash.slice(1);if(h==='s5run'){show('s5');runMany()}else if(h==='s4bad'){makeBadManual()}else if(h==='s3bad'){makeBadManual();show('s3')}else show(TABS.some(t=>t[0]===h)?h:'s1')})();
 </script>
 </body>
 </html>
